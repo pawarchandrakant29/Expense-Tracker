@@ -1,0 +1,20 @@
+{
+  "name": "expense_tracker",
+  "version": "1.0.0",
+  "description": "track Expenses",
+  "main": "main.js",
+  "scripts": {
+    "start": "nodemon main.js"
+  },
+  "author": "Chandrakant Pawar",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongoose": "^8.6.0",
+    "nodemon": "^3.1.4"
+  }
+}

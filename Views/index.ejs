@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <title>Expense Tracker</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+      background-attachment: fixed;
+      color: #fff;
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+
+    .table thead th {
+      background-color: #2575fc;
+      color: #fff;
+      border-bottom: 2px solid #6a11cb;
+    }
+
+    .table tbody tr {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: #333;
+    }
+
+    .table tbody tr:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .btn-primary,
+    .btn-warning,
+    .btn-danger {
+      border-radius: 20px;
+    }
+
+    .btn-primary {
+      background-color: #2575fc;
+      border-color: #2575fc;
+    }
+
+    .btn-primary:hover {
+      background-color: #1a5bb8;
+      border-color: #1a5bb8;
+    }
+
+    .btn-warning {
+      background-color: #ffc107;
+      border-color: #ffc107;
+    }
+
+    .btn-warning:hover {
+      background-color: #e0a800;
+      border-color: #e0a800;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+      border-color: #c82333;
+    }
+
+    .fa-trash {
+      color: #000;
+    }
+
+    .btn i {
+      margin-right: 5px;
+    }
+
+    .card {
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-income {
+      color: green;
+      font-weight: bold;
+    }
+
+    .text-expense {
+      color: red;
+      font-weight: bold;
+    }
+
+    .summary {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .summary span {
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card shadow">
+      <h1 class="text-center mb-4">Expense Tracker</h1>
+      <div class="text-right mb-3">
+        <a href="/add" class="btn btn-primary"><i class="fas fa-plus"></i> Add Transaction</a>
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% transactions.forEach(transaction=> { %>
+            <tr>
+              <td>
+                <%= transaction.date ? transaction.date.toDateString() : 'No Date Provided' %>
+              </td>
+              <td>
+                <%= transaction.category %>
+              </td>
+              <td class="<%= transaction.type === 'Income' ? 'text-income' : 'text-expense' %>">
+                <%= transaction.type==='Income' ? '+' : '-' %>₹<%= transaction.amount %>
+              </td>
+              <td class="<%= transaction.type === 'Income' ? 'text-income' : 'text-expense' %>">
+                <%= transaction.type %>
+              </td>
+              <td>
+                <%= transaction.description %>
+              </td>
+              <td>
+                <a href="edit/<%= transaction._id %>" class="btn btn-warning btn-sm">
+                  <i class="fas fa-edit"></i> Edit
+                </a>
+                <form action="delete/<%= transaction._id %>" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+
+      <!-- Display total income, expense, and savings -->
+      <div class="summary">
+        <p>Total Income: <span class="text-income">₹<%= totalIncome %></span></p>
+        <p>Total Expense: <span class="text-expense">₹<%= totalExpense %></span></p>
+        <p>Total Savings: <span class="<%= totalSavings >= 0 ? 'text-income' : 'text-expense' %>">
+            <%= totalSavings>= 0 ? '+' : '-' %>₹<%= Math.abs(totalSavings) %>
+          </span></p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
